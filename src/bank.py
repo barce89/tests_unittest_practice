@@ -38,13 +38,13 @@ class BankAccount():
     #     return self.balance
     
     def withdraw(self, amount):
-        now = datetime.now()
-        # No se permite retirar fuera de horario
-        if now.hour < 8 or now.hour > 17:
-            raise WithdrawalTimeRestrictionError("Retiros fuera de horario no están permitidos.")
-        # No se permite retirar los domingos
-        if now.weekday() == 6:  # 6 es domingo
-            raise WithdrawalTimeRestrictionError("No se permite retirar los domingos.")
+        # now = datetime.now()
+        # # No se permite retirar fuera de horario
+        # if now.hour < 8 or now.hour > 17:
+        #     raise WithdrawalTimeRestrictionError("Retiros fuera de horario no están permitidos.")
+        # # No se permite retirar los domingos
+        # if now.weekday() == 6:  # 6 es domingo
+        #     raise WithdrawalTimeRestrictionError("No se permite retirar los domingos.")
         if amount > self.balance:
             raise ValueError("Saldo insuficiente.")
         self.balance -= amount

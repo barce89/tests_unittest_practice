@@ -55,17 +55,34 @@ class Test_BankAccount(unittest.TestCase):
         assert self._count_lines(self.account.log_file)==2
 
 
-    @patch("src.bank.datetime")
-    def test_withdraw_during_bussines_hours(self,mock_datetime):
-        mock_datetime.now.return_value.hour = 10
-        self.account.withdraw(100)
+    # @patch("src.bank.datetime")
+    # def test_withdraw_during_bussines_hours(self,mock_datetime):
+    #     mock_datetime.now.return_value.hour = 10
+    #     self.account.withdraw(100)
 
 
     @patch("src.bank.datetime")
-    def test_withdraw_after_bussines_hours(self,mock_datetime):
-        mock_datetime.now.return_value.hour = 17
-        newbalance = self.account.withdraw(100)
-        self.assertEqual(newbalance,900)
+    def test_withdraw_during_bussines_hours(self, mock_datetime):
+        mock_datetime.now.return_value = datetime(2024, 1, 6, 10, 0, 0)
+        new_balance = self.account.withdraw(100)
+        self.assertEqual(new_balance, 900)
+
+
+
+
+    # @patch("src.bank.datetime")
+    # def test_withdraw_after_bussines_hours(self,mock_datetime):
+    #     mock_datetime.now.return_value.hour = 17
+    #     newbalance = self.account.withdraw(100)
+    #     self.assertEqual(newbalance,900)
+
+
+    @patch("src.bank.datetime")
+    def test_withdraw_after_bussines_hours(self, mock_datetime):
+        mock_datetime.now.return_value = datetime(2024, 1, 6, 20, 0, 0)
+        with self.assertRaises(WithdrawalTimeRestrictionError):
+            self.account.withdraw(100)
+
         
 
     # @patch("src.bank.datetime")
